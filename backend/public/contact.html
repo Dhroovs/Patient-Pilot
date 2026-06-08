@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MedTranslate AI</title>
+<link rel="stylesheet" href="index.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+ 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+
+  <!-- Header Section -->
+<header class="site-header">
+  <div class="header-container">
+    <div class="title-bar"> 
+     <img src="Logo.jpg" alt="Logo" class="logo" />
+     <h1>MedTranslate AI</h1>
+    </div>
+  </div>
+</header>
+<nav class="navbar">
+  <ul class="nav-menu">
+    
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    
+    <li><a href="history.html">History</a></li>
+     
+     
+     <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+<!-- Contact Section -->
+            <section id="contact" class="py-20 md:py-32 text-center max-w-2xl mx-auto reveal">
+                  
+                <h3 class="text-4xl md:text-5xl font-black text-gray-200 mb-6">Get In Touch</h3>
+                <p class="text-gray-400 mb-8">
+                    My inbox is always open. Whether you have a question or just want to say hi, I’ll get back to you! Feel free to send a message.
+                </p>
+                
+               <form id="contact-form" class="space-y-4 text-left">
+  <input type="text" id="name" placeholder="Your Name" required>
+  <input type="email" id="email" placeholder="Your Email" required>
+  <textarea id="message" placeholder="Your Message" required></textarea>
+
+  <button type="submit">Send Message</button>
+  <p id="form-status"></p>
+</form>
+
+
+            </section>
+            <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+  (function () {
+    emailjs.init("uK5BnpSJxn0y0XLeG");
+  })();
+</script>
+            <script>
+                
+document.getElementById("contact-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const status = document.getElementById("form-status");
+    status.innerText = "Sending...";
+
+    emailjs.send("medtranslate_service", "template_nak7qas", {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        message: document.getElementById("message").value
+    })
+    .then(() => {
+        status.innerText = "Message sent successfully!";
+        this.reset();
+    })
+    .catch((error) => {
+        status.innerText = "Failed to send message. Try again.";
+        console.error(error);
+    });
+});
+</script>
+</body>
+</html>

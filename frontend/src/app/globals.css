@@ -1,0 +1,187 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fdfbf7;
+  --foreground: #2d2d2d;
+  --card: #ffffff;
+  --card-foreground: #2d2d2d;
+  --popover: #ffffff;
+  --popover-foreground: #2d2d2d;
+  --primary: #ff4d4d; /* Correction Red Marker */
+  --primary-foreground: #ffffff;
+  --secondary: #2d5da1; /* Blue Ballpoint Pen */
+  --secondary-foreground: #ffffff;
+  --muted: #e5e0d8; /* Erased Pencil Muted */
+  --muted-foreground: #6e6e6e;
+  --accent: #2d5da1;
+  --accent-foreground: #ffffff;
+  --destructive: #ff4d4d;
+  --destructive-foreground: #ffffff;
+  --border: #2d2d2d; /* Pencil Outline */
+  --input: #ffffff;
+  --ring: #2d5da1;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: #181b22; /* Blackboard Slate */
+  --foreground: #f3f3f3; /* Chalk White */
+  --card: #222631; /* Charcoal Slate Card */
+  --card-foreground: #f3f3f3;
+  --popover: #222631;
+  --popover-foreground: #f3f3f3;
+  --primary: #ff6b6b; /* Red Chalk */
+  --primary-foreground: #ffffff;
+  --secondary: #4a8ae7; /* Blue Chalk */
+  --secondary-foreground: #ffffff;
+  --muted: #3d4455; /* Erased Chalk */
+  --muted-foreground: #a0a8b9;
+  --accent: #4a8ae7;
+  --accent-foreground: #ffffff;
+  --destructive: #ff6b6b;
+  --destructive-foreground: #ffffff;
+  --border: #f3f3f3; /* Chalk Line Outline */
+  --input: #222631;
+  --ring: #4a8ae7;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-heading: var(--font-kalam);
+  --font-body: var(--font-patrick-hand);
+
+  --animate-scan: scan-sketch 3s ease-in-out infinite;
+  --animate-scribble: scribble 0.3s steps(2) infinite;
+}
+
+/* Wobbly Border Radii */
+.wobbly-border {
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+}
+
+.wobbly-border-md {
+  border-radius: 15px 225px 15px 255px / 255px 15px 225px 15px;
+}
+
+.wobbly-border-lg {
+  border-radius: 30px 255px 30px 255px / 255px 30px 255px 30px;
+}
+
+/* Hard Offset Shadows */
+.hard-shadow {
+  box-shadow: 4px 4px 0px 0px var(--border);
+}
+
+.hard-shadow-md {
+  box-shadow: 6px 6px 0px 0px var(--border);
+}
+
+.hard-shadow-lg {
+  box-shadow: 8px 8px 0px 0px var(--border);
+}
+
+.hard-shadow-sm {
+  box-shadow: 2px 2px 0px 0px var(--border);
+}
+
+/* Press Active Button States */
+.press-btn {
+  transition: all 0.1s ease-in-out;
+}
+
+.press-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px var(--border);
+}
+
+.press-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px 0px var(--border);
+}
+
+/* Background Paper Dot & Chalkboard Grids */
+body {
+  background-color: var(--background);
+  background-image: radial-gradient(rgba(110, 110, 110, 0.1) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+  color: var(--foreground);
+  font-family: var(--font-patrick-hand), Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark body {
+  background-image: linear-gradient(rgba(243, 243, 243, 0.04) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(243, 243, 243, 0.04) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+/* Document Font Assignments */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-kalam), cursive;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Handwriting underline guides */
+.ruled-lines {
+  background-image: linear-gradient(transparent 95%, rgba(45, 45, 45, 0.1) 95%);
+  background-size: 100% 28px;
+  line-height: 28px;
+}
+
+.dark .ruled-lines {
+  background-image: linear-gradient(transparent 95%, rgba(243, 243, 243, 0.05) 95%);
+}
+
+/* Scanning line animations mimicking sketches */
+@keyframes scan-sketch {
+  0% {
+    top: 5%;
+    transform: rotate(-1deg);
+  }
+  50% {
+    top: 95%;
+    transform: rotate(2deg);
+  }
+  100% {
+    top: 5%;
+    transform: rotate(-1deg);
+  }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+  border-left: 2px solid var(--border);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted);
+  border: 2px solid var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground);
+}

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MedTranslate AI</title>
+<link rel="stylesheet" href="index.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+ 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+
+  <!-- Header Section -->
+<header class="site-header">
+  <div class="header-container">
+    <div class="title-bar"> 
+     <img src="Logo.jpg" alt="Logo" class="logo" />
+     <h1>MedTranslate AI</h1>
+    </div>
+  </div>
+</header>
+<nav class="navbar">
+  <ul class="nav-menu">
+    
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    
+    <li><a href="history.html">History</a></li>
+     
+     
+     <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="wrapper">
+
+  
+
+  <div class="card">
+
+    <!-- Upload Section -->
+    <div class="upload-section">
+      <input type="file" id="imageInput" hidden>
+      <button class="primary-btn" type="button" onclick="document.getElementById('imageInput').click()">
+        Upload Prescription
+      </button>
+      <p id="fileName" class="file-name"></p>
+    </div>
+
+    <!-- Language Selection -->
+    <select id="languageSelect">
+      <option value="English">English</option>
+      <option value="Hindi">Hindi</option>
+      <option value="Telugu">Telugu</option>
+    </select>
+
+    <!-- Action Buttons -->
+    <button class="primary-btn" onclick="uploadImage()">Analyze Prescription</button>
+<button class="secondary-btn" onclick="goToHistory()">View History</button>
+    <!-- Preview & Result -->
+    <div id="preview"></div>
+    <div id="result"></div>
+
+  </div>
+</div>
+
+<script>
+const imageInput = document.getElementById("imageInput");
+const preview = document.getElementById("preview");
+const result = document.getElementById("result");
+const fileNameText = document.getElementById("fileName");
+
+imageInput.addEventListener("change", function() {
+  const file = this.files[0];
+  if (!file) return;
+
+  fileNameText.innerText = "Selected: " + file.name;
+
+  const reader = new FileReader();
+  reader.onload = function() {
+    preview.innerHTML = "<img src='" + reader.result + "' />";
+  };
+  reader.readAsDataURL(file);
+});
+
+async function uploadImage() {
+  const file = imageInput.files[0];
+  if (!file) return alert("Please select a prescription image.");
+
+ result.classList.add("active");   // Make visible immediately
+result.innerHTML = "Analyzing prescription...";
+
+  const language = document.getElementById("languageSelect").value;
+
+  const formData = new FormData();
+  formData.append("prescription", file);
+  formData.append("language", language);
+
+  try {
+    const response = await fetch("/api/prescription/upload", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      result.innerHTML = `
+        <h3>Extracted Text</h3>
+        <pre>${data.extractedText}</pre>
+
+        <h3>Simplified Explanation</h3>
+        <div>${data.simplifiedText.replace(/\n/g, "<br>")}</div>
+
+        <br>
+        <button class="primary-btn" onclick="downloadPDF()">Download PDF</button>
+      `;
+      result.classList.add("active");
+    } else {
+      result.innerHTML = "Processing failed.";
+    }
+  } catch (err) {
+    result.innerHTML = "Server error occurred.";
+  }
+}
+
+
+
+
+
+
+
+function downloadPDF(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.text(result.innerText, 10, 10);
+  doc.save("MedTranslate_Report.pdf");
+}
+</script>
+   <button id="topBtn" title="Go to top">↑</button>
+<script>
+  const topBtn = document.getElementById("topBtn");
+
+  window.onscroll = function () {
+    if (window.scrollY > 200) {
+      topBtn.style.display = "block";
+    } else {
+      topBtn.style.display = "none";
+    }
+  };
+
+  topBtn.addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  function goToHistory(){
+  window.location.href = "history.html";
+}
+  </script>
+
+</body>
+</html>

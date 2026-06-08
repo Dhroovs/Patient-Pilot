@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MedTranslate AI - History</title>
+<link rel="stylesheet" href="index.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+body {
+  background: #f4f7fb;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Container */
+.history-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* Title */
+.history-title {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 28px;
+  font-weight: 600;
+  color: #1e293b; /* DARK → visible */
+}
+
+/* Clear All Button */
+.clear-all-btn {
+  display: block;
+  margin: 0 auto 25px;
+  padding: 12px 20px;
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.clear-all-btn:hover {
+  background: #dc2626;
+}
+
+/* Card */
+.history-card {
+  background: #ffffff;
+  padding: 18px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+/* Date */
+.history-card small {
+  color: #64748b;
+  font-size: 13px;
+}
+
+/* Text */
+.history-card div {
+  margin-top: 10px;
+  line-height: 1.6;
+  color: #1e293b;
+}
+
+/* Button container */
+.btn-group {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px; /* 🔥 THIS separates buttons */
+}
+
+/* Buttons */
+.btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* Download button */
+.btn-download {
+  background: #2563eb;
+  color: white;
+}
+
+.btn-download:hover {
+  background: #1d4ed8;
+}
+
+/* Delete button */
+.btn-delete {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.btn-delete:hover {
+  background: #d1d5db;
+}
+</style>
+
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="header-container">
+    <div class="title-bar"> 
+     <img src="Logo.jpg" alt="Logo" class="logo" />
+     <h1>MedTranslate AI</h1>
+    </div>
+  </div>
+</header>
+
+<nav class="navbar">
+  <ul class="nav-menu">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="history.html">History</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="history-container">
+  <h2 class="history-title">Your Prescription History</h2>
+
+  <button class="clear-all-btn" onclick="clearAllHistory()">
+    Clear All History
+  </button>
+
+  <div id="historyList"></div>
+</div>
+
+<script>
+async function loadFullHistory() {
+  try {
+    const response = await fetch("/api/prescription/history");
+    const data = await response.json();
+
+    const container = document.getElementById("historyList");
+
+    if (!data.length) {
+      container.innerHTML = "<p>No history found.</p>";
+      return;
+    }
+
+    let html = "";
+
+    data.forEach(item => {
+      const encodedText = btoa(unescape(encodeURIComponent(item.simplifiedText)));
+
+      html += `
+        <div class="history-card">
+          <small>${new Date(item.createdAt).toLocaleString()}</small>
+          <hr>
+          <div>${item.simplifiedText.replace(/\n/g, "<br>")}</div>
+
+          <br>
+
+          <div class="btn-group">
+  <button class="btn btn-download" onclick="downloadSingle('${encodedText}')">
+    Download PDF
+  </button>
+
+  <button class="btn btn-delete" onclick="deleteSingle('${item._id}')">
+    Clear
+  </button>
+</div>
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+
+  } catch (err) {
+    document.getElementById("historyList").innerHTML = "Error loading history.";
+  }
+}
+
+function downloadSingle(encodedText){
+  const text = decodeURIComponent(escape(atob(encodedText)));
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  const splitText = doc.splitTextToSize(text, 180);
+  doc.text(splitText, 10, 10);
+
+  doc.save("Prescription.pdf");
+}
+
+async function deleteSingle(id){
+  if(!confirm("Delete this record?")) return;
+
+  await fetch(`/api/prescription/delete/${id}`, {
+    method: "DELETE"
+  });
+
+  loadFullHistory();
+}
+
+async function clearAllHistory(){
+  if(!confirm("Clear ALL history?")) return;
+
+  try {
+    const res = await fetch("/api/prescription/delete-all", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    const data = await res.json();
+    console.log("DELETE ALL RESPONSE:", data);
+
+    if(data.success){
+      alert("All history cleared!");
+      loadFullHistory();
+    } else {
+      alert("Failed to clear history");
+    }
+
+  } catch(err){
+    console.error(err);
+    alert("Error occurred");
+  }
+}
+
+window.onload = loadFullHistory;
+</script>
+
+</body>
+</html>
