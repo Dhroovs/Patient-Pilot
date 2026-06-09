@@ -194,17 +194,25 @@ const response = await ai.models.generateContent({
 
 Here is what the PatientPilot system looks like in action:
 
-### 1. The Interactive Dashboard Portal
-The portal displays the uploaded handwritten note on the left and the real-time AI-parsed wobbly guidelines on the right:
-![AI Portal Workspace](Images/image3.png)
+### 1. The Interactive Dashboard & RAG Flow Ledger
+The welcome notebook detailing the user problem, solutions, operational mechanics, and full scribble-aesthetic tech stack ledger:
+![Sketched Features and Stack Ledger](Images/Features_Ledger.png)
 
-### 2. Scan Archive Ledger
-Access previous prescription scans safely, search parsed summaries, and filter records directly from local history:
-![Scan History Archive](Images/image1.jpeg)
+### 2. The Patient AI Portal Workspace
+Real-time upload view matching handwritten prescription sketches with parsed drug summaries, interactions, safety warnings, and chat sandbox:
+![AI Portal Workspace](Images/AI_Portal.png)
 
-### 3. Support & Feedback Desk
-A friendly get-in-touch card styled as a wobbly sketch support slip to mail developers or request help:
-![Support Desk Sketch](Images/image2.jpeg)
+### 3. Patient Scan History Archive
+Revisit previous prescription logs, search across active compounds, and clean session histories out-of-the-box:
+![Scan History Archive](Images/Scan_Archive.png)
+
+### 4. Interactive Support Desk
+A wobbly-bordered support card allowing patients and consulting clinics to request handwriting OCR support:
+![Support Desk Sketch](Images/Support_Desk.png)
+
+### 5. Patient Safety Guidelines & Accuracy Footer
+HIPAA-compliant data warning layout detailing clinical RAG validation checks and footer layouts:
+![Safety Footer and Guidelines](Images/Footer_Guidelines.png)
 
 ---
 
