@@ -11,7 +11,7 @@ Unlike traditional clinical software which can feel cold and intimidating, Patie
 - **Wobbly borders and sketched cards** mimicking hand-drawn notes..
 - **Thumbtacks and masking tape** styling details for visual warmth.
 - **Micro-animations and active laser scans** to keep the user interface responsive and alive.
-- **Harmonious dark mode** with custom HSL-tailored colors for comfort during night viewing..
+- **Harmonious dark mode** with custom HSL-tailored colors for comfort during night viewing...
 
 ---
 
