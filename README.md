@@ -85,7 +85,7 @@ If a developer runs the project offline or without a MongoDB Atlas cluster URI, 
 
 ---
 
-## 🛠️ Code Deep Dive & Highlights
+## 🛠️ Code Deep Dive & Highlights:
 
 ### ⚡ MongoDB Atlas Semantic Vector Search
 This query calculates vector distances locally on the node server and executes MongoDB Atlas `$vectorSearch` aggregation:
