@@ -1,6 +1,6 @@
 # 🏥 PatientPilot (MediLingo)
 
-An **interactive, sketched-aesthetic healthcare AI assistant** designed to translate and simplify complex, scribbled medical prescriptions into patient-friendly, accessible instructions. 
+An **interactive, sketched-aesthetic healthcare AI assistant** designed to translate and simplify complex, scribbled medical prescriptions into patient-friendly, accessible instructions..
 
 Featuring a warm, **hand-drawn wobbly notebook UI**, PatientPilot bridges the communication gap between clinicians and patients using a dual-engine OCR pipeline, local semantic vector search (RAG), and structured Gemini AI parsing.
 
